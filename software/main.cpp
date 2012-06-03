@@ -180,7 +180,6 @@ void loadRangeFile(char *rangeFile, int rmin[], int rmax[]) {
 		if (i>0) {
 			rmin[i]=min;
 			rmax[i]=max;
-			//printf("%d %d %d\n", i, rmin[i], rmax[i]);
 		}
 	}
 	fclose(f);
@@ -227,15 +226,15 @@ void Idle() {
 		r=r/(rmax[x+1]-rmin[x+1]);
 		r=(r*2)-1;
 		features[x+1].value=r;
-//			printf("%f ", features[x].value);
 	}
-//		printf("\n");
+
 	features[x].index=-1;
 	r=svm_predict_values(model,features,decVals);
 	detection = (int) r;
 	printf("gesture number: %f\n", r);
 
 	glutPostRedisplay();    // Post a paint request to activate display()
+
 }
 
 

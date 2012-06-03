@@ -70,7 +70,7 @@ int main()
 	{
 		OCR1C = 0; 
 		temp = 0;
-		xputs(PSTR("*"));
+		xputs(PSTR("#"));
 		for(i=0;i<step;i++)
 		{			
 			ADCSRA|=(1<<ADSC);

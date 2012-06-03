@@ -145,6 +145,7 @@ void getSamples(unsigned int* inBuffer)
 	unsigned char tem;
 	
 	fgets((char *)buff,1024,f);
+	fflush(f);
 
 	if(buff[0]=='#' && buff[(2*buffSize)+1]=='#')
 	{
@@ -185,15 +186,17 @@ void loadRangeFile(char *rangeFile, int rmin[], int rmax[]) {
 	fclose(f);
 }
 
-void classifyInput(char *modelfile) {
-	struct svm_model *model;
-	struct svm_node features[NOSAMPS+1];
-	int samp[NOSAMPS];
-	int rmin[NOSAMPS];
-	int rmax[NOSAMPS];
-	double *decVals;
-	int x, noLabels, noDecVals;
-	double r;
+
+struct svm_model *model;
+struct svm_node features[NOSAMPS+1];
+int samp[NOSAMPS];
+int rmin[NOSAMPS];
+int rmax[NOSAMPS];
+double *decVals;
+int x, noLabels, noDecVals;
+double r;
+void init_classifyInput(char *modelfile) {
+
 	char buff[1024];
 
 	strcpy(buff, modelfile);
@@ -210,8 +213,13 @@ void classifyInput(char *modelfile) {
 	noLabels=svm_get_nr_class(model);
 	noDecVals=noLabels*(noLabels-1)/2;
 	decVals=(double*)malloc(sizeof(double)*noDecVals);
+}
+
+
+void Idle() {	 
 
 	getSamples(dataBuffer);
+
 	for (x=0; x<NOSAMPS; x++) {
 		features[x].index=x;
 		//rescale to [-1, 1]
@@ -226,15 +234,6 @@ void classifyInput(char *modelfile) {
 	r=svm_predict_values(model,features,decVals);
 	detection = (int) r;
 	printf("gesture number: %f\n", r);
-//		for (x=0; x<noDecVals; x++) printf("%f ", decVals[x]);
-//		printf("\n");
-
-}
-
-
-void Idle() {	 
-	
-	classifyInput(fileName);
 
 	glutPostRedisplay();    // Post a paint request to activate display()
 }
@@ -259,7 +258,9 @@ int main(int argc, char* argv[])
 		dataBuffer[i]=0;
 
 	glutInit(&argc,argv);
-	glutInitWindowSize( A_ , B_ );      
+	glutInitWindowSize( A_ , B_ );     
+	
+	init_classifyInput(fileName); 
 
 	glutInitDisplayMode( GLUT_RGB | GLUT_SINGLE);
 	glutCreateWindow("Frequency sweep cap. measure!"); 

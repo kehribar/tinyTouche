@@ -61,9 +61,6 @@ int serialOpen(char *port) {
 	return com;
 }
 
-
-/* Run 'svm-easy train.svm' command after you generate
- 	the training file with this program! */
 int main(int argc, char* argv[])
 {
 	int com;
@@ -165,6 +162,8 @@ int main(int argc, char* argv[])
 	}
 	
 	printf(">> Finished all!\n");
+	printf(">> Running svm-easy ... \n");
+	system("svm-easy train.svm");
 	
 	return 0;
 	

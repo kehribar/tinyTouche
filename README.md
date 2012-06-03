@@ -28,6 +28,3 @@
 	- Run the training program, follow the orders ,how many classes needed,
 	how many samples required for each sample, and this program generates
 	the training file for you.
-	- Generate the model using this training file by using 
-	'svm-easy train.svm' command
-

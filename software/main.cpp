@@ -110,7 +110,7 @@ void display( void )
 	char* myNumber;
 
 	glBegin(GL_LINES);     
-		for(i=0;i<buffSize;i++)
+		for(i=0;i<(buffSize-1);i++)
 		{
 			glColor3f ( 1.0, 0.0, 0.0);       
 			glVertex2f( xAxis, dataBuffer[i] /2 );         
@@ -123,12 +123,10 @@ void display( void )
 	
 	glColor3f ( 0.0, 0.0, 0.0);      
 
-	glPushMatrix();
-    	glTranslatef(650,100,0);
-   	glScaled(2,2,1);
-		glutStrokeCharacter(GLUT_STROKE_ROMAN,myNumber[0]);
-	glPopMatrix();
-
+ 	glTranslatef(650,100,0);
+	glScaled(2,2,1);
+	glutStrokeCharacter(GLUT_STROKE_ROMAN,myNumber[0]);
+	
 	glFlush();                        
 }
 
@@ -148,7 +146,7 @@ void getSamples(unsigned int* inBuffer)
 	
 	fgets((char *)buff,1024,f);
 
-	if(buff[0]=='*' && buff[(2*buffSize)+1]=='#')
+	if(buff[0]=='#' && buff[(2*buffSize)+1]=='#')
 	{
 		for(n=0;n<buffSize;n++)
 		{
@@ -234,13 +232,11 @@ void classifyInput(char *modelfile) {
 }
 
 
-void Timer(int value) {	 
+void Idle() {	 
 	
-	glutPostRedisplay();    // Post a paint request to activate display()
-
 	classifyInput(fileName);
 
-	glutTimerFunc(0, Timer, 0); // subsequent timer call at milliseconds
+	glutPostRedisplay();    // Post a paint request to activate display()
 }
 
 
@@ -268,7 +264,7 @@ int main(int argc, char* argv[])
 	glutInitDisplayMode( GLUT_RGB | GLUT_SINGLE);
 	glutCreateWindow("Frequency sweep cap. measure!"); 
 	glutDisplayFunc(display);
-	glutTimerFunc(0, Timer, 0); 
+	glutIdleFunc(Idle);
 	glutIgnoreKeyRepeat(1);  
 	myinit();                        
 

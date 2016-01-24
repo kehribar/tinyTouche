@@ -12,9 +12,10 @@ F_CPU   = 16000000	# in Hz
 FUSE_L  = 0xe1
 FUSE_H  = 0xdd
 FUSE_EXT  = 0xfe
-AVRDUDE = avrdude -c usbtiny -p t85 -V -U flash:w:main.hex
+AVRDUDE = avrdude -c usbtiny -p t85 -V -U flash:w:main.hex -B 10
 
 CFLAGS  = -DDEBUG_LEVEL=0
+CFLAGS += -Wno-deprecated-declarations -D__PROG_TYPES_COMPAT__
 OBJECTS = main.c suart.S xitoa.S
 COMPILE = avr-gcc -Wall -Os -DF_CPU=$(F_CPU) $(CFLAGS) -mmcu=$(DEVICE)
 

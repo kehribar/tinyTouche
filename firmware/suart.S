@@ -20,12 +20,10 @@
 #define	BPS	44	/* Bit delay. (see above table) */
 #define	BIDIR	0	/* 0:Separated Tx/Rx, 1:Shared Tx/Rx */
 
-#define	OUT_1		cbi _SFR_IO_ADDR(DDRB), 4	/* Output 1 */
-#define	OUT_0		sbi _SFR_IO_ADDR(DDRB), 4	/* Output 0 */
+#define	OUT_1		cbi _SFR_IO_ADDR(DDRB), 3	/* Output 1 */
+#define	OUT_0		sbi _SFR_IO_ADDR(DDRB), 3	/* Output 0 */
 #define	SKIP_IN_1	sbis _SFR_IO_ADDR(PINB), 3	/* Skip if 1 */
 #define	SKIP_IN_0	sbic _SFR_IO_ADDR(PINB), 3	/* Skip if 0 */
-
-
 
 #ifdef SPM_PAGESIZE
 .macro	_LPMI	reg
